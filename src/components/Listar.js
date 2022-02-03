@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
 class Listar extends React.Component {
   
@@ -14,23 +15,42 @@ class Listar extends React.Component {
               <th>ID</th>
               <th>Nombre</th>
               <th>Correo</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td scope="row">1</td>
+              <td >1</td>
               <td>Sebas</td>
               <td>s@gmail.com</td>
+              <td>
+                <div class="btn-group" role="group" aria-label="">
+                  <Link to={"/editar"} class="btn btn-primary">Editar</Link>
+                  <button type="button" class="btn btn-danger">Borrar</button>
+                </div>
+              </td>
             </tr>
             <tr>
-              <td scope="row">2</td>
+              <td>2</td>
               <td>Revoltoso</td>
               <td>Diosito ayudanos por favor</td>
+              <td>
+                <div class="btn-group" role="group" aria-label="">
+                  <Link to={"/editar"} class="btn btn-primary">Editar</Link>
+                  <button type="button" class="btn btn-danger">Borrar</button>
+                </div>
+              </td>
             </tr>
             <tr>
-              <td scope="row">3</td>
+              <td>3</td>
               <td>Dios Mio</td>
               <td>Diosito ayudanos por favor</td>
+              <td>
+                <div class="btn-group" role="group" aria-label="">
+                  <Link to={"/editar"} class="btn btn-primary">Editar</Link>
+                  <button type="button" class="btn btn-danger">Borrar</button>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>

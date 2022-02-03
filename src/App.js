@@ -3,6 +3,7 @@ import Listar from "./components/Listar";
 import Crear from "./components/Crear";
 import Editar from "./components/Editar";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import {Link} from "react-router-dom";
 
 function App() {
   return (
@@ -10,15 +11,15 @@ function App() {
       <div className="container">
         <nav className="navbar navbar-expand navbar-light bg-light">
           <div className="nav navbar-nav">
-            <a className="nav-item nav-link active" href="/">
+            <Link className="nav-item nav-link active" to={"/"}>
               Listar 
-            </a>
-            <a className="nav-item nav-link" href="/crear">
+            </Link>
+            <Link className="nav-item nav-link" to={"/crear"}>
               Crear
-            </a>
-            <a className="nav-item nav-link" href="/editar">
+            </Link>
+            <Link className="nav-item nav-link" to={"/editar"}>
               Editar
-            </a>
+            </Link>
           </div>
         </nav>
        <Routes>
