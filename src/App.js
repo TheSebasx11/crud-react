@@ -17,15 +17,12 @@ function App() {
             <Link className="nav-item nav-link" to={"/crear"}>
               Crear
             </Link>
-            <Link className="nav-item nav-link" to={"/editar"}>
-              Editar
-            </Link>
           </div>
         </nav>
        <Routes>
           <Route path="/" element={<Listar></Listar>}></Route>
           <Route path="/crear" element={<Crear></Crear>}></Route>
-          <Route path="/editar" element={<Editar></Editar>}></Route>
+          <Route path="/editar/:id" element={<Editar></Editar>}></Route>
         </Routes>
       </div>
     </Router>
