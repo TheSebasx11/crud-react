@@ -14,22 +14,22 @@ class Editar extends React.Component {
     super(props);
     this.state = {
       datosCargados: false,
-      empleado: { id: 0, nombre: "", correo: "" },
+      producto: { id: 0, nombre: "", precio: 0, peso: 0, cantidad: 0 },
       ir: false,
     };
   }
 
   cambioValor = (e) => {
-    const state = this.state.empleado;
+    const state = this.state.producto;
     state[e.target.name] = e.target.value;
-    this.setState({ empleado: state });
+    this.setState({ producto: state });
   };
 
   enviarDatos = (e) => {
     e.preventDefault();
-    const { id, nombre, correo } = this.state.empleado;
-    var datosEnviar = { id: id, nombre: nombre, correo: correo };
-    fetch("http://localhost/empleados/?actualizar=1", {
+    const { id, nombre,precio, peso, cantidad  } = this.state.producto;
+    var datosEnviar = { id: id, nombre: nombre, precio: precio, peso:peso, cantidad:cantidad };
+    fetch("http://localhost/productos/?actualizar=1", {
       method: "POST",
       body: JSON.stringify(datosEnviar),
     })
@@ -42,21 +42,21 @@ class Editar extends React.Component {
   };
 
   componentDidMount() {
-    fetch("http://localhost/empleados/?consultar=" + this.props.match.params.id)
+    fetch("http://localhost/productos/?consultar=" + this.props.match.params.id)
       .then((respuesta) => respuesta.json())
       .then((datosRespuesta) => {
         console.log(datosRespuesta[0]);
-        this.setState({ datosCargados: true, empleado: datosRespuesta[0] });
+        this.setState({ datosCargados: true, producto: datosRespuesta[0] });
       })
       .catch(console.log);
   }
 
   render() {
-    const { empleado, ir } = this.state;
+    const { producto, ir } = this.state;
     return (
       <div className="card">
         {ir && <Navigate to="/" replace={true} />}
-        <div className="card-header">Editar Empleado</div>
+        <div className="card-header">Editar producto</div>
         <div className="card-body">
           <div className="form-group">
             <label>Clave:</label>
@@ -65,7 +65,7 @@ class Editar extends React.Component {
               type="text"
               name="nombre"
               readOnly
-              value={empleado.id}
+              value={producto.id}
               id="nombre"
               className="form-control"
               placeholder=""
@@ -73,7 +73,7 @@ class Editar extends React.Component {
             />
 
             <small id="helpId" className="text-muted">
-              Clave del empleado
+              Clave del producto
             </small>
           </div>
           <form onSubmit={this.enviarDatos}>
@@ -82,37 +82,69 @@ class Editar extends React.Component {
               <input
                 type="text"
                 name="nombre"
+                required
                 onChange={this.cambioValor}
-                value={empleado.nombre}
+                value={producto.nombre}
                 id="nombre"
                 className="form-control"
                 placeholder=""
                 aria-describedby="helpId"
               />
               <small id="helpId" className="text-muted">
-                Escribe el nombre del empleado
+                Escribe el nombre del producto
               </small>
             </div>
             <div className="form-group">
-              <label>Correo:</label>
+              <label>Precio:</label>
               <input
-                type="text"
-                name="correo"
-                id="nombre"
+                type="number"
+                name="precio"
+                required
                 onChange={this.cambioValor}
-                value={empleado.correo}
+                value={producto.precio}
                 className="form-control"
                 placeholder=""
                 aria-describedby="helpId"
               />
               <small id="helpId" className="text-muted">
-                Escribe el Correo del empleado
+                Escribe el precio del producto
               </small>
             </div>
-
+            <div className="form-group">
+              <label>Peso:</label>
+              <input
+                type="number"
+                name="peso"
+                required
+                onChange={this.cambioValor}
+                value={producto.peso}
+                className="form-control"
+                placeholder=""
+                aria-describedby="helpId"
+              />
+              <small id="helpId" className="text-muted">
+                Escribe el Peso del producto
+              </small>
+            </div>
+            <div className="form-group">
+              <label>Cantidad:</label>
+              <input
+                type="number"
+                name="cantidad"
+                required
+                onChange={this.cambioValor}
+                value={producto.cantidad}
+                className="form-control"
+                placeholder=""
+                aria-describedby="helpId"
+              />
+              <small id="helpId" className="text-muted">
+                Escribe la cantidad del producto
+              </small>
+            </div>
             <div className="btn-group" role="group" aria-label="">
               <button type="submit" className="btn btn-success">
-                Actualizar empleado
+                Actualizar producto
               </button>
               <Link to={"/"} className="btn btn-cancel">
                 Cancelar

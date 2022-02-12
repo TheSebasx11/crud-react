@@ -6,16 +6,33 @@ class Crear extends React.Component {
     super(props);
     this.state = {
       nombre: "",
-      correo: "",
+      precio: 0,
+      peso: 0,
+      cantidad: 0,
+      errores: [],
       ir: false,
     };
   }
 
+verificarError(elemento) {
+  return this.state.errores.indexOf(elemento) !== -1;
+}
+
   enviarDatos = (e) => {
     e.preventDefault();
-    const { nombre, correo } = this.state;
-    var datosEnviar = { nombre: nombre, correo: correo };
-    fetch("http://localhost/empleados/?insertar=1", {
+    const { nombre, precio, peso, cantidad } = this.state;
+
+    var errores = [];
+    if(!nombre)errores.push("error_nombre");
+    if(!precio)errores.push("error_precio");
+    if(!peso)errores.push("error_peso");
+    if(!cantidad)errores.push("error_cantidad");
+
+    this.setState({errores:errores});
+    if(errores.length>0)return false;
+
+    var datosEnviar = { nombre: nombre, precio: precio, peso:peso, cantidad:cantidad };
+    fetch("http://localhost/productos/?insertar=1", {
       method: "POST",
       body: JSON.stringify(datosEnviar),
     })
@@ -31,18 +48,18 @@ class Crear extends React.Component {
   cambioValor = (e) => {
     const state = this.state;
     state[e.target.name] = e.target.value;
-    this.setState({ state });
+    this.setState({ state, errores:[] });
   };
 
   render() {
-    const { nombre, correo, ir } = this.state;
+    const { nombre, precio, peso, cantidad, ir } = this.state;
 
     return (
         
       <div className="card">
         {ir && (<Navigate to="/" replace={true}/>)}
         <div className="card-header">
-          <h4>Crear Empleados</h4>
+          <h4>Crear productos</h4>
         </div>
         <div className="card-body">
           <form onSubmit={this.enviarDatos}>
@@ -54,35 +71,66 @@ class Crear extends React.Component {
                 onChange={this.cambioValor}
                 value={nombre}
                 id="nombre"
-                className="form-control"
+                className={((this.verificarError("error_nombre"))?"is-invalid ":"") + "form-control"}
                 placeholder=""
                 aria-describedby="helpId"
               />
-              <small id="helpId" className="text-muted">
+              <small id="helpId" className="invalid-feedback">
                 Escribe el nombre del empleado
               </small>
             </div>
             <div className="form-group">
-              <label>Correo:</label>
+              <label>Precio:</label>
               <input
-                type="text"
-                name="correo"
+                type="number"
+                name="precio"
                 id="nombre"
                 onChange={this.cambioValor}
-                value={correo}
-                className="form-control"
+                value={precio}
+                className={((this.verificarError("error_precio"))?"is-invalid ":"") + "form-control"}
                 placeholder=""
                 aria-describedby="helpId"
               />
-              <small id="helpId" className="text-muted">
-                Escribe el Correo del empleado
+              <small id="helpId" className="invalid-feedback">
+                Escribe el precio del empleado
               </small>
             </div>
-
+            <div className="form-group">
+              <label>Peso:</label>
+              <input
+                type="number"
+                name="peso"
+                onChange={this.cambioValor}
+                value={peso}
+                className={((this.verificarError("error_peso"))?"is-invalid ":"") + "form-control"}
+                placeholder=""
+                aria-describedby="helpId"
+              />
+              <small id="helpId" className="invalid-feedback">
+                Escribe el peso del producto
+              </small>
+            </div>
+            <div className="form-group">
+              <label>Cantidad:</label>
+              <input
+                type="number"
+                name="cantidad"
+                onChange={this.cambioValor}
+                value={cantidad}
+                className={((this.verificarError("error_cantidad"))?"is-invalid ":"") + "form-control"}
+                placeholder=""
+                aria-describedby="helpId"
+              />
+              <small id="helpId" className="invalid-feedback">
+                Escribe la cantidad del producto
+              </small>
+            </div>
+            <br/>
             <div className="btn-group" role="group" aria-label="">
               <button type="submit" className="btn btn-success">
-                Agregar nuevo empleado
+                Agregar nuevo producto
               </button>
+              
               <Link to={"/"} className="btn btn-cancel">
                 Cancelar
               </Link>
